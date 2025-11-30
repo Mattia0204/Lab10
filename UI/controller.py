@@ -29,6 +29,6 @@ class Controller:
 
         i=1
         for u, v, d in G.edges(data=True):
-            self._view.lista_visualizzazione.controls.append(ft.Text(f"{i}) [{u} -> {v}] -- Guadagno medio per spedizione €{d.get('weight')})"))
+            self._view.lista_visualizzazione.controls.append(ft.Text(f"{i}) [{u} -> {v}] -- Guadagno medio per spedizione €{d.get('weight')}"))
             i+=1
         self._view.lista_visualizzazione.update()

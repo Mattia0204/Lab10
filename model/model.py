@@ -13,12 +13,20 @@ class Model:
         guadagno medio per spedizione >= threshold (euro)
         """
         self.G = nx.Graph()
+        lista_hub = DAO.get_hub()
+        nome_1 = ""
+        nome_2 = ""
         edges_valore = self.get_all_edges()
         for edge, valore in edges_valore.items():
             valore = float(valore)
             if valore >= threshold:
                 nodo_1, nodo_2 = edge
-                self.G.add_edge(nodo_1, nodo_2, weight=valore)
+                for hub in lista_hub.values():
+                    if nodo_1 == hub.id:
+                        nome_1 = hub.nome
+                    if nodo_2 == hub.id:
+                        nome_2 = hub.nome
+                self.G.add_edge(nome_1, nome_2, weight=valore)
         return self.G
 
     def get_num_edges(self):
@@ -56,7 +64,7 @@ class Model:
         risultato = {}
         lista_spedizioni_finale = {}
         for spedizione in lista_spedizioni.values():
-            tratta = (spedizione.id_hub_origine, spedizione.id_hub_destinazione)
+            tratta = tuple(sorted((spedizione.id_hub_origine, spedizione.id_hub_destinazione)))
             valore_corrente = float(spedizione.valore_merce)
             if tratta not in lista_spedizioni_distinte:
                 lista_spedizioni_distinte.append(tratta)
